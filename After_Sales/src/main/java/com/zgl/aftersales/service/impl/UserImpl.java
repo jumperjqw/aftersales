@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 @Service
 @Transactional
 public class UserImpl implements UserService {
@@ -24,5 +26,15 @@ public class UserImpl implements UserService {
     @Override
     public Users selectByUsername(String username) {
         return userMapper.selectByUsername(username);
+    }
+
+    @Override
+    public Users selectByEmail(String mail) {
+        return userMapper.selectByEmail(mail);
+    }
+
+    @Override
+    public void updateByEmailToPwd(Map<String, String> map) {
+        userMapper.updateByEmailToPwd(map);
     }
 }

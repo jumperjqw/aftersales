@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -128,21 +130,70 @@ public class UserController {
         return status;
    }
 
-   @PostMapping("/mail")
-    public Status resetPed(@RequestBody JSONObject json){
+   @PostMapping("/mailSend")
+    public Status mailSend(@RequestBody JSONObject json){
+
         String toMail=json.getString("mail");
         Status status=new Status();
-        //生成随机验证码
-       String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
-       try {
-           mailService.sendMail(toMail,"验证码",checkCode);
+        String patternMail="^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+       if(Pattern.matches(patternMail,toMail)){
+           if(userService.selectByEmail(toMail)!=null){
+               String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
 
-           status.setMsg("验证码发送成功");
-           status.setData(checkCode);
-           status.setStatus(true);
-       }catch (Exception e){
-           status.setMsg("验证码发送失败");
+               try {
+                   mailService.sendMail(toMail,"软件售后服务公司验证码","您的验证码是："+checkCode);
+
+                   status.setMsg("验证码发送成功");
+                   status.setData(checkCode);
+                   status.setStatus(true);
+               }catch (Exception e){
+                   status.setMsg("验证码发送失败");
+               }
+           }else {
+               status.setMsg("该邮箱不存在");
+           }
+       }else {
+           status.setMsg("请输入正确邮箱");
        }
+        //生成随机验证码
+
+        return status;
+   }
+
+   @PostMapping("/resetpwd")
+    public Status resetpwd(@RequestBody JSONObject json){
+        Status status=new Status();
+        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
+        Map<String,String> map=new HashMap<String,String>();
+
+        String mail=json.getString("mail");
+        String checkCode=json.getString("checkCode");
+        String postCheckCode=json.getString("postCheckCode");
+        String newPwd=json.getString("newPwd");
+        String rePwd=json.getString("rePwd");
+
+        String patternPwd= "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$";//必须由数字和字母组成，且长度大于6
+
+       if(checkCode.equals(postCheckCode)){
+           if(Pattern.matches(patternPwd,newPwd)){
+               if(newPwd.equals(rePwd)){
+                   map.put("pwd",desDecodeUtiles.getEncryptString(newPwd));
+                   map.put("mail",mail);
+                   userService.updateByEmailToPwd(map);
+                   status.setMsg("密码重置成功！");
+                   status.setStatus(true);
+               }else {
+                   status.setMsg("重置失败，两次密码输入不相同");
+               }
+           }else{
+               status.setMsg("重置失败，密码格式错误，必须包含字母和数字");
+           }
+        }else {
+           status.setMsg("重置失败，验证码错误");
+       }
+
+
+
         return status;
    }
 

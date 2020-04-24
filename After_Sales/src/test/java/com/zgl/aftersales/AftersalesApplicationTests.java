@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
 class AftersalesApplicationTests {
@@ -38,6 +40,21 @@ class AftersalesApplicationTests {
         String username="zgl";
         Users user=userService.selectByUsername(username);
         System.out.println(user);
+    }
+    @Test
+    void selectByMeil(){
+        String mail="979563197@qq.com";
+        Users user=userService.selectByEmail(mail);
+        System.out.println(user);
+
+    }
+    @Test
+    void  updateByEmailToPwd(){
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("pwd","123456");
+        map.put("mail","9795@qq.com");
+        userService.updateByEmailToPwd(map);
+
     }
 
 }
