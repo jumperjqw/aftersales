@@ -2,6 +2,7 @@ package com.zgl.aftersales;
 
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.UserService;
+import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +40,7 @@ class AftersalesApplicationTests {
     void selectByUsername(){
         String username="zgl";
         Users user=userService.selectByUsername(username);
+        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         System.out.println(user);
     }
     @Test
@@ -56,5 +58,6 @@ class AftersalesApplicationTests {
         userService.updateByEmailToPwd(map);
 
     }
+
 
 }

@@ -11,18 +11,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/user")
 @CrossOrigin //允许跨域
+@RequestMapping(value ="/user",method = RequestMethod.POST)
 @Slf4j
+@ResponseBody
 public class UserController {
-   @Autowired
+    @Autowired
     private UserService userService;
     @Autowired
     private MailService mailService;
@@ -33,6 +38,7 @@ public class UserController {
 
     @PostMapping("/register")
     public Status addUser(@RequestBody JSONObject json){
+
         JSONObject userJson=json.getJSONObject("user");
         Users user=new Users();
         user.setUser_name(userJson.getString("User_name"));
@@ -97,7 +103,7 @@ public class UserController {
    }
 
    @PostMapping("/login")
-   public Status selectByUsername(@RequestBody JSONObject json){
+   public Status selectByUsername(@RequestBody JSONObject json, HttpServletRequest req,HttpServletResponse resp){
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         Status status=new Status();
         String loginUsername=json.getString("username");//前台传入的用户名
@@ -105,12 +111,28 @@ public class UserController {
 
         Users user=userService.selectByUsername(loginUsername);
 
+        String decodPwd=desDecodeUtiles.getDecryptString(user.getPassword());
+
+
         if(user==null){
             status.setMsg("该用户不存在");
         }
         else {
-            if(loginPwd.equals(desDecodeUtiles.getDecryptString(user.getPassword()))){
+            if(loginPwd.equals(decodPwd)){
                 status.setStatus(true);
+
+                //登陆成功，创建session
+                HttpSession seesion=req.getSession(true);
+                seesion.setAttribute("username",loginUsername);
+                System.out.println("session id:"+seesion.getId());
+
+                //将sessionId存进cookie
+                Cookie cookie=new Cookie("USER_SESSION_ID",seesion.getId());
+                cookie.setPath("/");
+                cookie.setMaxAge(10*60);//存在时间为十分钟
+                resp.addCookie(cookie);
+
+
                 if(user.getRole_id()==1){
                    status.setMsg("登录成功，该用户为管理员");
                    status.setData("admin_login.hmtl");//role_id=1,为管理员
