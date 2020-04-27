@@ -39,9 +39,9 @@
                             <h2>账号登录</h2>
                             <form>
                                 <span><b>用户名:&nbsp;&nbsp;</b></span>
-                                <input type="text" name="login_name" autocomplete="false" value='11111232' placeholder="请输入你的用户名"><br>
+                                <input type="text" name="login_name" autocomplete="false" placeholder="请输入你的用户名"><br>
                                 <span><b>&nbsp;&nbsp;&nbsp;密码:&nbsp;&nbsp;</b></span>
-                                <input type="password" name="login_pwd" autocomplete="false" value='1q2w3e4r' placeholder="请输入你的密码"><br>
+                                <input type="password" name="login_pwd" autocomplete="false" placeholder="请输入你的密码"><br>
                                 <!-- <a href="">还没有账号</a>
                                 <a href="">忘记密码？</a><br> -->
                                 <button class="login_submit" type="button" onclick="login_check()">登录</button><br>
@@ -76,9 +76,9 @@
                                 <input type="text" name="pwd_code" autocomplete="false" id="code" placeholder="输入验证码">
                                 <button id="getCode" type="button">获取验证码</button><br>
                                 <span><b>&nbsp;&nbsp;&nbsp;新密码:</b></span>
-                                <input type="text" name="pwd_pwd" autocomplete="false" minlength="6" required placeholder="包含字母和数字，不少于6位"><br>
+                                <input type="password" name="pwd_pwd" autocomplete="false" minlength="6" required placeholder="包含字母和数字，不少于6位"><br>
                                 <span><b>确认密码:</b></span>
-                                <input type="text" name="pwd_repwd" autocomplete="false" required minlength="6" placeholder="再次输入你的密码"><br>
+                                <input type="password" name="pwd_repwd" autocomplete="false" required minlength="6" placeholder="再次输入你的密码"><br>
                                 <button><a href="javascript:history.go(-1);"><b>返回</b></a></button>
                                 <button type="button" onclick="find_check()"><b>提交</b></button>
                             </form>
