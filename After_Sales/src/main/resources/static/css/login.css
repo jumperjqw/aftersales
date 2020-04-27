@@ -1,0 +1,177 @@
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+body{
+    width:100%;
+    height:100%;
+}
+.bgImg{
+    background: url(../img/bg2.jpg) no-repeat center center fixed;
+    background-size:cover;
+    position:absolute;
+    z-index:-999;
+    height: 100%;
+    width: 100%;
+}
+header > h1{
+    text-align: center;
+    color: #222538;
+    font-size: 40px;
+    font-weight: 700;
+    padding-top: 30px;
+}
+.form_tags{
+    background-color: rgba(190, 190, 190, 0.6);
+    width: 60%;
+    height: 450px;
+    position: relative;
+    margin: 60px 0 0 260px;
+    /* border: 1px solid #BEBEBE; */
+    box-shadow: 8px 8px 20px #D3D3D3;
+    /* overflow: hidden; */
+    
+}
+.form_tags > ul{
+    width: 20%;
+    height: 450px;
+    background-color: rgba(190, 190, 190,1);
+    float: left;
+    /* margin-top: -120px; */
+}
+.form_tags>ul li{
+    border-radius: 5px;
+    list-style: none;
+    border: 1px solid #8B8989;
+}
+.form_tags >ul li:not(:first-child){
+    text-align: center;
+    height: 96.5px;
+    cursor: pointer;
+    line-height:20px;
+    padding-top: 30px;
+    font-size: 20px;
+    /* border: 1px solid red; */
+    /* padding-top: 50%; */
+}
+.form_tags >ul li:first-child{
+    height: 60px;
+    cursor: default;
+    text-align: left;
+    padding:5px 0 0 10px;
+    font-size: 21px;
+}
+.form_tags >ul li:not(:first-child):hover,li.active{
+    color: #fff;
+    background: #7286a0;
+    /* transition-delay: 0.2s; */
+    -webkit-transition:all .3s cubic-bezier(.84,.35,.39,.74) 0s;transition:all .3s cubic-bezier(.84,.35,.39,.74) 0s;
+}
+#forms{
+    border: 1px solid #BEBEBE;
+    float: left;
+    width: 79.5%;
+    height: 450px;
+}
+#forms h2{
+    text-align: center;
+    padding-right: 80px;
+    margin-bottom: 60px;
+}
+#register h2{
+    margin-bottom: 30px !important;
+}
+#find_pwd h2{
+    margin-bottom: 30px !important;
+}
+.itme{
+    width: 100%;
+    height: 450px;
+    padding-top: 20px;
+    display: none;
+}
+#forms .itme.active {
+    display: block;
+}
+.itme form{
+    margin-left: 140px;
+}
+.itme input{
+    width: 210px;
+    height: 30px;
+    margin-bottom: 35px;
+    font-size: 16px; 
+    line-height: 16px; 
+}
+#register input{
+    width: 200px;
+    height: 28px;
+    font-size: 14px; 
+    line-height: 14px; 
+    margin-bottom: 25px;
+}
+.itme button{
+    /* margin-top: 80px; */
+    width: 80px;
+    cursor: pointer;
+    height: 40px;
+    color: lightslategray;
+    background-color: #EEE9E9	;
+    border: 1px ridge wheat;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.itme button:hover{
+    font-size: 17px;
+}
+.itme a{
+    text-decoration: none;
+    color: lightslategray;
+}
+.login_submit{
+    
+    font-weight: 700;
+    width: 160px !important;
+    /* height: 50px !important; */
+    margin:30px 0 30px 90px ;
+}
+.login_return{
+    font-weight: 700;
+    width: 160px !important;
+    margin-left: 90px;
+}
+#register button{                     /* 注册的注册键 */
+    margin: 18px 0 0 60px;
+}
+#find_pwd p{
+    font-size: 16px;
+    letter-spacing: .5px;
+    line-height: 1.8;
+    margin: 0 0 15px 10px;
+}
+#find_pwd button:not([id="getCode"]){
+    margin: 0 0 0 60px;
+}
+#code{
+    width:100px ;
+}
+#getCode{
+    width: 85px;
+    height: 37px;
+    font-size: 15px;
+    margin-left: 20px;
+    position: relative;
+    color: slategrey;
+}
+#getCode:hover{
+    color: dimgray;
+}
+label.error{
+    color:#d4654e;
+    font-size:14px;
+    margin-left:5px;
+    padding-left:16px;
+    background:url("../img/error.png") left no-repeat;
+}
+
