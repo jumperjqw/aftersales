@@ -54,6 +54,8 @@ $(document).ready(function(){
                         "mail":pwd_email
                     };
                         $.ajax({
+                            type:'POST',
+
                             data:JSON.stringify(user),
 
                             contentType :'application/json',
@@ -65,9 +67,9 @@ $(document).ready(function(){
                             success :function(data) {
                                 // console.dir(data.status);
                                 if (data.status) {      //登录成功
-                                    // alert(jsonData.msg);
+                                    alert("验证码发送成功，请注意查收！");
                                 } else {
-                                    alert(data.msg);
+                                    alert("error:"+data.msg);
                                 }
 
                             },
