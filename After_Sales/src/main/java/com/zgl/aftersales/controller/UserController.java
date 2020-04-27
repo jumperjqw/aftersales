@@ -2,6 +2,7 @@ package com.zgl.aftersales.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.zgl.aftersales.AftersalesApplication;
 import com.zgl.aftersales.pojo.Status;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
@@ -10,7 +11,9 @@ import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.ContextLoader;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +28,7 @@ import java.util.regex.Pattern;
 @CrossOrigin //允许跨域
 @RequestMapping(value ="/user",method = RequestMethod.POST)
 @Slf4j
-@ResponseBody
+
 public class UserController {
     @Autowired
     private UserService userService;
@@ -153,7 +156,7 @@ public class UserController {
    }
 
    @PostMapping("/mailSend")
-    public Status mailSend(@RequestBody JSONObject json){
+    public Status mailSend(@RequestBody JSONObject json,HttpServletRequest req){
 
         String toMail=json.getString("mail");
         Status status=new Status();
@@ -168,8 +171,13 @@ public class UserController {
                    status.setMsg("验证码发送成功");
                    status.setData(checkCode);
                    status.setStatus(true);
+                   ServletContext servletContext =req.getServletContext();
+                   servletContext.setAttribute("code",checkCode);
+
+
                }catch (Exception e){
                    status.setMsg("验证码发送失败");
+                   e.printStackTrace();
                }
            }else {
                status.setMsg("该邮箱不存在");
@@ -183,14 +191,16 @@ public class UserController {
    }
 
    @PostMapping("/resetpwd")
-    public Status resetpwd(@RequestBody JSONObject json){
+    public Status resetpwd(@RequestBody JSONObject json,HttpServletRequest req){
         Status status=new Status();
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         Map<String,String> map=new HashMap<String,String>();
-
+        ServletContext servletContext = req.getServletContext();
         String mail=json.getString("mail");
-        String checkCode=json.getString("checkCode");
-        String postCheckCode=json.getString("postCheckCode");
+        String checkCode=(String)servletContext.getAttribute("code");
+
+        String postCheckCode=json.getString("checkcode");
+       System.out.println(checkCode+";"+postCheckCode);
         String newPwd=json.getString("newPwd");
         String rePwd=json.getString("rePwd");
 

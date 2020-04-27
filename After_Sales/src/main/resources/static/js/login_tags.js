@@ -54,6 +54,8 @@ $(document).ready(function(){
                         "mail":pwd_email
                     };
                         $.ajax({
+                            type:'POST',
+
                             data:JSON.stringify(user),
 
                             contentType :'application/json',
