@@ -2,7 +2,6 @@ package com.zgl.aftersales.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.zgl.aftersales.AftersalesApplication;
 import com.zgl.aftersales.pojo.Status;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
@@ -11,7 +10,6 @@ import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.ContextLoader;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -228,5 +226,13 @@ public class UserController {
 
         return status;
    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody JSONObject json, HttpServletRequest req) {
+        int User_id = (int) req.getSession(true).getAttribute("userID");
+
+        req.removeAttribute("userID");
+    }
+
 
 }
